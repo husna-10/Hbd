@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Envelope Animation</title>
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #f5e6cc; /* Matches envelope background tone */
+        overflow: hidden;
+    }
+
+    .envelope {
+        width: 300px;
+        transition: transform 1.5s ease, opacity 0.5s ease;
+        cursor: pointer;
+        z-index: 1;
+        position: relative;
+    }
+
+    .envelope.zoomed {
+        transform: scale(10);
+        opacity: 0;
+        pointer-events: none; /* disable clicks after zoom */
+    }
+
+    .letter {
+        position: absolute;
+        opacity: 0;
+        transition: opacity 1s ease;
+        z-index: 3; /* always above envelope */
+        text-align: center;
+        pointer-events: none; /* hidden at start */
+    }
+
+    .letter.show {
+        opacity: 1;
+        pointer-events: auto; /* clickable after showing */
+    }
+
+    .letter img {
+        width: 400px;
+    }
+
+    .letter-text {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 70%;
+        font-family: 'Brush Script MT', cursive;
+        font-size: 2rem;
+        color: black;
+    }
+</style>
+</head>
+<body>
+
+<img src="env.png" alt="Envelope" class="envelope" id="envelope">
+
+<div class="letter" id="letter">
+    <img src="oldst.png" alt="Letter Background">
+    <div class="letter-text">Dear ruru</div>
+</div>
+
+<script>
+    const envelope = document.getElementById('envelope');
+    const letter = document.getElementById('letter');
+
+    envelope.addEventListener('click', () => {
+        envelope.classList.add('zoomed');
+
+        // After zoom finishes, fade in letter and allow clicks
+        setTimeout(() => {
+            letter.classList.add('show');
+        }, 1500);
+    });
+
+
+</script>
+
+</body>
+</html>

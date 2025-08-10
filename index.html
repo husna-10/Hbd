@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Catch the Ferrari</title>
+  <style>
+    body {
+      margin: 0;
+      height: 100vh;
+      background-color: black;
+      overflow: hidden;
+      font-family: 'Brush Script MT', cursive;
+    }
+    h1 {
+      color: red;
+      text-align: center;
+      font-size: 2.5rem;
+      margin-top: 20px;
+    }
+    #carButton {
+      position: absolute;
+      width: 180px;
+      cursor: pointer;
+      transition:
+        left 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+        top 0.9s cubic-bezier(0.4, 0, 0.2, 1),
+        transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #messageBox {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 3rem;
+      color: white;
+      text-shadow:
+        0 0 10px yellow,
+        0 0 20px red,
+        0 0 30px red;
+      z-index: 1000;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Catch the Ferrari</h1>
+<img id="carButton" src="ferrari.png" alt="Ferrari Car">
+<div id="messageBox"></div>
+
+<script>
+  let clickCount = 0;
+  const car = document.getElementById("carButton");
+  const messageBox = document.getElementById("messageBox");
+
+  // Initial car position
+  car.style.left = (window.innerWidth / 2 - car.offsetWidth / 2) + "px";
+  car.style.top = (window.innerHeight / 2 - car.offsetHeight / 2) + "px";
+
+  car.addEventListener("click", function() {
+    clickCount++;
+    if (clickCount === 1) {
+      moveCar();
+      showMessage("Too slow! 😏", 1000);
+    } 
+    else if (clickCount === 2) {
+      moveCar();
+      showMessage("😏 Is this the best you can do?", 1200);
+    } 
+    else if (clickCount === 3) {
+      window.location.href = "letter.html";
+    }
+  });
+
+  function moveCar() {
+    const maxX = window.innerWidth - car.offsetWidth;
+    const maxY = window.innerHeight - car.offsetHeight;
+
+    const randomX = Math.floor(Math.random() * maxX);
+    const randomY = Math.floor(Math.random() * maxY);
+
+    const randomAngle = Math.floor(Math.random() * 40 - 20);
+    const randomScale = 1 + Math.random() * 0.2;
+
+    car.style.left = randomX + "px";
+    car.style.top = randomY + "px";
+    car.style.transform = `rotate(${randomAngle}deg) scale(${randomScale})`;
+  }
+
+  function showMessage(text, duration) {
+    messageBox.textContent = text;
+    messageBox.style.display = "block";
+    setTimeout(() => {
+      messageBox.style.display = "none";
+    }, duration);
+  }
+</script>
+
+</body>
+</html>
