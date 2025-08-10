@@ -10,7 +10,7 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        background-color: #f5e6cc; /* Matches envelope background tone */
+        background-color: #f5e6cc;
         overflow: hidden;
     }
 
@@ -25,21 +25,26 @@
     .envelope.zoomed {
         transform: scale(10);
         opacity: 0;
-        pointer-events: none; /* disable clicks after zoom */
+        pointer-events: none;
     }
 
     .letter {
         position: absolute;
         opacity: 0;
         transition: opacity 1s ease;
-        z-index: 3; /* always above envelope */
+        z-index: 3;
         text-align: center;
-        pointer-events: none; /* hidden at start */
+        pointer-events: none;
+        cursor: pointer;
     }
 
     .letter.show {
         opacity: 1;
-        pointer-events: auto; /* clickable after showing */
+        pointer-events: auto;
+    }
+
+    .letter.fade-out {
+        opacity: 0;
     }
 
     .letter img {
@@ -57,6 +62,24 @@
         font-size: 2rem;
         color: black;
     }
+
+    .final-message {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 3rem;
+        font-family: 'Brush Script MT', cursive;
+        color: black;
+        opacity: 0;
+        transition: opacity 1s ease;
+        z-index: 4;
+        text-align: center;
+    }
+
+    .final-message.show {
+        opacity: 1;
+    }
 </style>
 </head>
 <body>
@@ -68,20 +91,27 @@
     <div class="letter-text"></div>
 </div>
 
+<div class="final-message" id="finalMessage">Go look in the dikky 😁</div>
+
 <script>
     const envelope = document.getElementById('envelope');
     const letter = document.getElementById('letter');
+    const finalMessage = document.getElementById('finalMessage');
 
     envelope.addEventListener('click', () => {
         envelope.classList.add('zoomed');
-
-        // After zoom finishes, fade in letter and allow clicks
         setTimeout(() => {
             letter.classList.add('show');
         }, 1500);
     });
 
-
+    letter.addEventListener('click', () => {
+        letter.classList.add('fade-out');
+        setTimeout(() => {
+            letter.style.display = 'none';
+            finalMessage.classList.add('show');
+        }, 1000);
+    });
 </script>
 
 </body>
